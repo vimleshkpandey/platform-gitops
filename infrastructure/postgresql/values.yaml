@@ -36,6 +36,4 @@ postgresql:
           CREATE DATABASE notificationdb;
 
   metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
+    enabled: false
