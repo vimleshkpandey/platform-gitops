@@ -8,6 +8,12 @@ traefik:
   # DaemonSet ensures one Traefik per node (correct for single-node and future multi-node)
   hostNetwork: true
 
+  # Required by Traefik Helm chart when hostNetwork: true
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+
   service:
     type: ClusterIP
 
