@@ -1,0 +1,10 @@
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+# Keep the controller key in a predictable secret name for backup/restore
+secretName: sealed-secrets-key

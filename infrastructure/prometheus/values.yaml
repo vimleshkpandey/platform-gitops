@@ -1,0 +1,78 @@
+kube-prometheus-stack:
+  grafana:
+    enabled: false  # deployed separately for independent lifecycle
+
+  alertmanager:
+    alertmanagerSpec:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+
+  prometheus:
+    prometheusSpec:
+      retention: 7d
+      retentionSize: "8GB"
+
+      # Discover ServiceMonitors and PodMonitors from all namespaces
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      ruleSelectorNilUsesHelmValues: false
+
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 1500Mi
+
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: local-path
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 10Gi
+
+  prometheusOperator:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi
+
+  nodeExporter:
+    enabled: true
+
+  kubeStateMetrics:
+    enabled: true
+
+  # Istio scrape configs — picks up Istio control plane and data plane metrics
+  additionalScrapeConfigs:
+    - job_name: istio-mesh
+      kubernetes_sd_configs:
+        - role: endpoints
+          namespaces:
+            names:
+              - istio-system
+              - applications
+              - databases
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+          action: keep
+          regex: istio-pilot;http-monitoring
+    - job_name: envoy-stats
+      metrics_path: /stats/prometheus
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_container_port_name]
+          action: keep
+          regex: .*-envoy-prom

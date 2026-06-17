@@ -1,0 +1,40 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/vimleshkpandey/your-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  host: app.vimleshdev.com
+  clusterIssuer: letsencrypt-prod
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+
+healthCheck:
+  path: /actuator/health
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 3
+
+config: {}
+
+existingSecret: ""
+
+serviceAccount:
+  create: true
+  name: ""
+
+nameOverride: ""
+fullnameOverride: ""

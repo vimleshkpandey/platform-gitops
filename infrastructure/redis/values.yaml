@@ -1,0 +1,35 @@
+redis:
+  architecture: standalone
+
+  auth:
+    enabled: true
+    existingSecret: redis-credentials
+    existingSecretPasswordKey: password
+
+  master:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+    persistence:
+      enabled: false
+
+    podSecurityContext:
+      runAsNonRoot: true
+      fsGroup: 1001
+
+    containerSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+
+  replica:
+    replicaCount: 0
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true

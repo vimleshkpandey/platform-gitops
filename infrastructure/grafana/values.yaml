@@ -1,0 +1,91 @@
+grafana:
+  admin:
+    existingSecret: grafana-credentials
+    userKey: admin-user
+    passwordKey: admin-password
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+          isDefault: true
+          jsonData:
+            timeInterval: 30s
+        - name: Loki
+          type: loki
+          url: http://loki.monitoring.svc.cluster.local:3100
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          folder: General
+          type: file
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 7249
+        revision: 1
+        datasource: Prometheus
+      spring-boot-statistics:
+        gnetId: 12900
+        revision: 1
+        datasource: Prometheus
+      jvm-micrometer:
+        gnetId: 4701
+        revision: 1
+        datasource: Prometheus
+      postgresql:
+        gnetId: 9628
+        revision: 7
+        datasource: Prometheus
+      redis:
+        gnetId: 11835
+        revision: 1
+        datasource: Prometheus
+      cilium-dashboard:
+        gnetId: 16611
+        revision: 1
+        datasource: Prometheus
+      hubble-dashboard:
+        gnetId: 16613
+        revision: 1
+        datasource: Prometheus
+      istio-mesh:
+        gnetId: 7639
+        revision: 1
+        datasource: Prometheus
+      istio-service:
+        gnetId: 7636
+        revision: 1
+        datasource: Prometheus
+      traefik:
+        gnetId: 17346
+        revision: 1
+        datasource: Prometheus
+
+  ingress:
+    enabled: false  # managed via Traefik IngressRoute below
+
+  persistence:
+    enabled: true
+    storageClassName: local-path
+    size: 5Gi
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  serviceMonitor:
+    enabled: true

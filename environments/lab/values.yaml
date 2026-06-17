@@ -1,0 +1,13 @@
+domain: lab.vimleshdev.com  # <-- replace
+
+clusterIssuer: letsencrypt-staging  # use staging in lab to avoid rate limits
+
+defaultResources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+replicaCount: 1

@@ -1,0 +1,88 @@
+# vimsfinance backend (Spring Boot, Java 25, port 4455)
+# NOTE: vimsfinance has 3 services — backend, frontend (nginx), cas-parser (Python).
+# This values file covers the backend. Frontend and cas-parser will be added in Phase 6.
+
+image:
+  repository: ghcr.io/vimleshkpandey/vimsfinance-backend
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 4455  # backend listens on 4455, not 8080
+
+ingress:
+  enabled: true
+  host: vimsfinance.vimleshdev.com
+  clusterIssuer: letsencrypt-prod
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1024Mi
+
+healthCheck:
+  path: /actuator/health
+  initialDelaySeconds: 45
+  periodSeconds: 10
+  failureThreshold: 3
+
+# Non-sensitive environment variables (safe to commit)
+config:
+  SPRING_PROFILES_ACTIVE: "prod"
+  APP_ENV: "production"
+  SERVER_PORT: "4455"
+
+  # Database — in-cluster PostgreSQL
+  DB_HOST: "postgresql.databases.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_USER: "vimsfinance"
+  DB_NAME: "vimsfinance"
+
+  # Redis — in-cluster Redis
+  REDIS_HOST: "redis-master.databases.svc.cluster.local"
+  REDIS_PORT: "6379"
+
+  # SMTP (Hostinger)
+  MAIL_HOST: "smtp.hostinger.com"
+  MAIL_PORT: "465"
+  MAIL_USERNAME: "vimsfinance@vimleshpandey.com"
+  MAIL_FROM: "vimsfinance@vimleshpandey.com"
+  MAIL_SSL_ENABLED: "true"
+  MAIL_PASSWORD: ""  # set via existingSecret
+  APP_EMAIL_VERIFICATION_ENABLED: "true"
+  MANAGEMENT_HEALTH_MAIL_ENABLED: "false"
+
+  # App config
+  APP_BASE_URL: "https://vimsfinance.vimleshdev.com"
+  APP_COOKIE_SECURE: "true"
+  APP_CORS_ALLOWED_ORIGINS: "https://vimsfinance.vimleshdev.com"
+
+  # CAS parser — internal service (will be deployed as vimsfinance-cas-parser)
+  CASPARSER_SERVICE_URL: "http://vimsfinance-cas-parser.applications.svc.cluster.local:5001"
+
+  # Tracing — Jaeger (to be deployed in Phase 7)
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger.monitoring.svc.cluster.local:4318"
+  TRACING_SAMPLE_RATE: "1.0"
+
+  # Ollama (AI) — cloud API, disabled for now
+  OLLAMA_BASE_URL: "https://api.ollama.com"
+  OLLAMA_MODEL: "qwen3.5:cloud"
+  OLLAMA_ENABLED: "false"
+  OLLAMA_TIMEOUT_SECONDS: "60"
+
+  # Alpha Vantage (market data)
+  ALPHA_VANTAGE_BATCH_MAX_SYMBOLS_PER_RUN: "25"
+
+  # Logging
+  LOGGING_LEVEL_COM_PERSONALFINANCE: "INFO"
+  SPRING_DEVTOOLS_LIVERELOAD_ENABLED: "false"
+  SPRING_DEVTOOLS_RESTART_ENABLED: "false"
+
+# Sensitive values — injected via SealedSecret (see sealed-secret.yaml)
+existingSecret: vimsfinance-backend-secrets

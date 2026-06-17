@@ -1,0 +1,5 @@
+apiVersion: v2
+name: springboot-app
+description: Reusable Helm chart for Spring Boot applications
+version: 0.1.0
+appVersion: "1.0.0"
