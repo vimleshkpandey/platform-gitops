@@ -11,8 +11,6 @@ spec:
     repoURL: https://github.com/vimleshkpandey/platform-gitops
     targetRevision: HEAD
     path: infrastructure/redis
-    helm:
-      releaseName: redis
   destination:
     server: https://kubernetes.default.svc
     namespace: databases
