@@ -18,6 +18,9 @@ spec:
     - repoURL: https://github.com/vimleshkpandey/platform-gitops
       targetRevision: HEAD
       ref: appvalues
+    - repoURL: https://github.com/vimleshkpandey/platform-gitops
+      targetRevision: HEAD
+      path: applications/vimsfinance/secrets
   destination:
     server: https://kubernetes.default.svc
     namespace: applications
@@ -27,3 +30,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true

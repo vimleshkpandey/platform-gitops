@@ -2,6 +2,9 @@
 # NOTE: vimsfinance has 3 services — backend, frontend (nginx), cas-parser (Python).
 # This values file covers the backend. Frontend and cas-parser will be added in Phase 6.
 
+imagePullSecrets:
+  - name: ghcr-pull-secret
+
 image:
   repository: ghcr.io/vimleshkpandey/vimsfinance-backend
   tag: "latest"
@@ -54,7 +57,6 @@ config:
   MAIL_USERNAME: "vimsfinance@vimleshpandey.com"
   MAIL_FROM: "vimsfinance@vimleshpandey.com"
   MAIL_SSL_ENABLED: "true"
-  MAIL_PASSWORD: ""  # set via existingSecret
   APP_EMAIL_VERIFICATION_ENABLED: "true"
   MANAGEMENT_HEALTH_MAIL_ENABLED: "false"
 
