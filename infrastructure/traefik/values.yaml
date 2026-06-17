@@ -27,7 +27,7 @@ traefik:
     websecure:
       port: 443
     metrics:
-      port: 9100
+      port: 9902
       expose:
         default: true
 
@@ -57,6 +57,7 @@ traefik:
       serviceMonitor:
         enabled: true
         namespace: ingress
+        honorLabels: true
 
   logs:
     general:
