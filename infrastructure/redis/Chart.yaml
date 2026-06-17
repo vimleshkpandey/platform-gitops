@@ -3,5 +3,5 @@ name: redis
 version: 0.1.0
 dependencies:
   - name: redis
-    version: "19.x.x"
+    version: "20.x.x"
     repository: https://charts.bitnami.com/bitnami
