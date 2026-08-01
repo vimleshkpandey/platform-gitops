@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MintTracker - Coming Soon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        h1 {
+            color: white;
+            font-size: 56px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            margin-bottom: 50px;
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .email-form input {
+            flex: 1;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .email-form input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .email-form button {
+            padding: 14px 28px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .email-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .email-form button:active {
+            transform: translateY(0);
+        }
+
+        .features {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .feature {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .social-links {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+
+        .social-links a:hover {
+            color: white;
+        }
+
+        .status-message {
+            margin-top: 20px;
+            min-height: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">💰</div>
+        <h1>MintTracker</h1>
+        <p class="subtitle">Smart Financial Management Coming Soon</p>
+
+        <p class="description">
+            Track your spending, manage your budget, and achieve your financial goals with our intelligent tracking platform.
+        </p>
+
+        <div class="cta-section">
+            <form class="email-form" onsubmit="handleSubmit(event)">
+                <input
+                    type="email"
+                    placeholder="your@email.com"
+                    required
+                    id="emailInput"
+                />
+                <button type="submit">Notify Me</button>
+            </form>
+            <div class="status-message" id="statusMessage"></div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Analytics</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Goals</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔐</div>
+                <div class="feature-title">Secure</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Fast</div>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="mailto:vimlesh4u@gmail.com">Contact</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#terms">Terms</a>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            const statusMessage = document.getElementById('statusMessage');
+
+            statusMessage.textContent = '✓ Thanks! We\'ll notify you when we launch.';
+            statusMessage.style.color = '#a8e6cf';
+
+            document.getElementById('emailInput').value = '';
+
+            setTimeout(() => {
+                statusMessage.textContent = '';
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

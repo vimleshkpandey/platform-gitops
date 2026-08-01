@@ -1,0 +1,43 @@
+# MintTracker Coming Soon Page (Static HTML served via Nginx)
+# Mirrors the vimsfinance setup structure
+
+imagePullSecrets:
+  - name: ghcr-pull-secret
+
+image:
+  repository: ghcr.io/vimleshkpandey/minttracker
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: minttracker.vimleshdev.com
+  clusterIssuer: letsencrypt-prod
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# For static site served by nginx
+staticSite:
+  enabled: true
+  path: /usr/share/nginx/html
+
+# Non-sensitive environment variables
+config:
+  APP_ENV: "production"
+  SERVER_PORT: "80"
+
+  # Nginx config
+  NGINX_WORKER_PROCESSES: "auto"
+  NGINX_WORKER_CONNECTIONS: "1024"
